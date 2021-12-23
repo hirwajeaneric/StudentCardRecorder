@@ -1,0 +1,17 @@
+BIDIRECTIONAL MANY TO MANY MAPPING
+----------------------------------
+
+CARD
+1. CardId
+
+STUDENT
+1. StudentId
+2. Name
+3. Faculty
+4. Department
+5. Program
+7. CardId
+
+The relationship is OneToMany
+
+One Student CAN have One or more Cards.
