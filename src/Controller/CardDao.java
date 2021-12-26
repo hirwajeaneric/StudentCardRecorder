@@ -44,11 +44,13 @@ public class CardDao {
         return listofcards;
     }
     
-    /*
-    public void numberOfCardsTaken(){
+    public List<Card> searchList(int studentIdToSearch){
         session=HibernateUtil.getSessionFactory().openSession();
         transaction=session.beginTransaction();
-        String cardIdNumber = session.create
-        
-    }*/
+        Query searchQuery = session.createQuery("From Card WHERE regNo="+studentIdToSearch+"");
+        List<Card> searchResults= searchQuery.list();
+        transaction.commit();
+        session.close();
+        return searchResults;
+    }
 }

@@ -8,9 +8,9 @@ import javax.persistence.*;
  */
 @Entity
 public class Card {
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int cardId;
-    @Id
     private int regNo;
     private String name;
     private String faculty;

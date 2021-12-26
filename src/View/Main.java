@@ -15,18 +15,17 @@ public class Main extends javax.swing.JFrame {
 
     Card studentCard = new Card();
     CardDao cardDao = new CardDao();
-    List<Card> listOfCards;
+    List<Card> listOfCards, searchResults;
     DefaultTableModel model;
     
     public Main() {
         initComponents();
         getCardList();
-        displayInTable();
+        displayInTable(listOfCards);
     }
 
     public void getCardList(){
         listOfCards = cardDao.CreateCardList();
-        
     }
     
     public int takenCards(){
@@ -38,7 +37,7 @@ public class Main extends javax.swing.JFrame {
         return numberOfCardsTaken;
     }
     
-    private void displayInTable(){
+    private void displayInTable(List<Card> listOfCards){
         model = (DefaultTableModel) cardTable.getModel();
         model.setRowCount(0);
         
@@ -61,6 +60,7 @@ public class Main extends javax.swing.JFrame {
         departmentComboBox.setSelectedIndex(0);
         regNoTextField.setText(null);
         programTextField.setSelectedItem(0);
+        searchTextField.setText(null);
     }
     
     @SuppressWarnings("unchecked")
@@ -90,33 +90,47 @@ public class Main extends javax.swing.JFrame {
         resetButton = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         howOftenTakenTextField = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        searchTextField = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
+        refreshButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("AUCA - Student Card Recorder");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         programTextField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Day", "Evening" }));
+        jPanel1.add(programTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 248, 139, -1));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Name");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(59, 123, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Faculty");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 155, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Department");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 181, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Reg.No");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Program");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(42, 252, -1, -1));
+        jPanel1.add(nameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 121, 139, -1));
 
         facultyComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Information Technology", "Education", "Business Administration", "Nursing", "Theology" }));
         facultyComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -124,8 +138,11 @@ public class Main extends javax.swing.JFrame {
                 facultyComboBoxActionPerformed(evt);
             }
         });
+        jPanel1.add(facultyComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 151, 139, -1));
 
         departmentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Information Management", "Networking and Telecommunication", "Software Engineering" }));
+        jPanel1.add(departmentComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 177, 139, -1));
+        jPanel1.add(regNoTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 218, 139, -1));
 
         saveButton.setText("SAVE");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -133,6 +150,7 @@ public class Main extends javax.swing.JFrame {
                 saveButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(saveButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 346, -1, -1));
 
         cardTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -149,6 +167,8 @@ public class Main extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(cardTable);
 
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(264, 121, 555, 206));
+
         jPanel2.setBackground(new java.awt.Color(0, 51, 102));
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 255));
@@ -162,16 +182,16 @@ public class Main extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(256, 256, 256)
+                .addGap(254, 254, 254)
                 .addComponent(jLabel7)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel7)
-                .addContainerGap())
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -197,12 +217,15 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 831, -1));
+
         updateButton.setText("UPDATE");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(updateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 346, -1, -1));
 
         deleteButton.setText("DELETE");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -210,6 +233,7 @@ public class Main extends javax.swing.JFrame {
                 deleteButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 375, 78, -1));
 
         resetButton.setText("RESET");
         resetButton.addActionListener(new java.awt.event.ActionListener() {
@@ -217,90 +241,65 @@ public class Main extends javax.swing.JFrame {
                 resetButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(resetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 346, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("How often");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 285, -1, -1));
 
         howOftenTakenTextField.setEditable(false);
+        jPanel1.add(howOftenTakenTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 283, 139, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel8))
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 11), new java.awt.Color(0, 0, 0))); // NOI18N
+
+        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("Search by student registration number");
+
+        searchButton.setText("SEARCH");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+        refreshButton.setText("REFRESH");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(regNoTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(departmentComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 1, Short.MAX_VALUE)
-                            .addComponent(facultyComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 1, Short.MAX_VALUE)
-                            .addComponent(nameTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(programTextField, javax.swing.GroupLayout.Alignment.LEADING, 0, 148, Short.MAX_VALUE)
-                            .addComponent(howOftenTakenTextField, javax.swing.GroupLayout.Alignment.LEADING)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(saveButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(deleteButton)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(updateButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(resetButton)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+                        .addComponent(searchButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(refreshButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton)
+                    .addComponent(refreshButton))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(facultyComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(3, 3, 3)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(departmentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(regNoTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(programTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(howOftenTakenTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveButton)
-                    .addComponent(updateButton)
-                    .addComponent(resetButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(deleteButton)
-                .addGap(24, 24, 24))
-        );
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(264, 333, 555, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -310,65 +309,77 @@ public class Main extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        if (regNoTextField.getText().length()==5) {
+            studentCard.setName(nameTextField.getText());
+            studentCard.setFaculty(facultyComboBox.getSelectedItem().toString());
+            studentCard.setDepartment(departmentComboBox.getSelectedItem().toString());
+            int regNumber = Integer.parseInt(regNoTextField.getText());
+            studentCard.setRegNo(regNumber);
+            studentCard.setProgram(programTextField.getSelectedItem().toString());
 
-        studentCard.setName(nameTextField.getText());
-        studentCard.setFaculty(facultyComboBox.getSelectedItem().toString());
-        studentCard.setDepartment(departmentComboBox.getSelectedItem().toString());
-        int regNumber = Integer.parseInt(regNoTextField.getText());
-        studentCard.setRegNo(regNumber);
-        studentCard.setProgram(programTextField.getSelectedItem().toString());
+            cardDao.save(studentCard);
 
-        cardDao.save(studentCard);
-        
-        getCardList();
-        displayInTable();
-        clearFields();
-        
-        JOptionPane.showMessageDialog(null,"Card Data saved!");
+            getCardList();
+            displayInTable(listOfCards);
+            clearFields();
+
+            JOptionPane.showMessageDialog(null,"Card Data saved!","Success",JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Registration Number should be 5 digits long", "Error", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        studentCard.setName(nameTextField.getText());
-        studentCard.setFaculty(facultyComboBox.getSelectedItem().toString());
-        studentCard.setDepartment(departmentComboBox.getSelectedItem().toString());
-        int regNumber = Integer.parseInt(regNoTextField.getText());
-        studentCard.setRegNo(regNumber);
-        studentCard.setProgram(programTextField.getSelectedItem().toString());
-        
-        cardDao.update(studentCard);
-        
-        getCardList();
-        displayInTable();
-        clearFields();
-        
-        JOptionPane.showMessageDialog(null,"Card Data Updated!");
+        if (regNoTextField.getText().length()==5) {
+            studentCard.setName(nameTextField.getText());
+            studentCard.setFaculty(facultyComboBox.getSelectedItem().toString());
+            studentCard.setDepartment(departmentComboBox.getSelectedItem().toString());
+            int regNumber = Integer.parseInt(regNoTextField.getText());
+            studentCard.setRegNo(regNumber);
+            studentCard.setProgram(programTextField.getSelectedItem().toString());
+
+            cardDao.update(studentCard);
+
+            getCardList();
+            displayInTable(listOfCards);
+            clearFields();
+
+            JOptionPane.showMessageDialog(null,"Card Data Updated!","Success",JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Registration Number should be 5 digits long", "Error", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        studentCard.setName(nameTextField.getText());
-        studentCard.setFaculty(facultyComboBox.getSelectedItem().toString());
-        studentCard.setDepartment(departmentComboBox.getSelectedItem().toString());
-        int regNumber = Integer.parseInt(regNoTextField.getText());
-        studentCard.setRegNo(regNumber);
-        studentCard.setProgram(programTextField.getSelectedItem().toString());
-        
 
-        cardDao.delete(studentCard);
-        
-        getCardList();
-        displayInTable();
-        clearFields();
-        
-        JOptionPane.showMessageDialog(null,"Card Data Deleted!");
+//        int dialogResults = JOptionPane.showConfirmDialog(this, "Do you want to delete this card?", "Notice", JOptionPane.YES_NO_OPTION);
+//        if(dialogResults == JOptionPane.YES_OPTION){
+//            
+//        }else {
+//            
+//        }
+        studentCard.setName(nameTextField.getText());
+            studentCard.setFaculty(facultyComboBox.getSelectedItem().toString());
+            studentCard.setDepartment(departmentComboBox.getSelectedItem().toString());
+            int regNumber = Integer.parseInt(regNoTextField.getText());
+            studentCard.setRegNo(regNumber);
+            studentCard.setProgram(programTextField.getSelectedItem().toString());
+
+
+            cardDao.delete(studentCard);
+
+            getCardList();
+            displayInTable(listOfCards);
+            clearFields();
+
+            JOptionPane.showMessageDialog(null,"Card Data Deleted!","Success",JOptionPane.INFORMATION_MESSAGE);        
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void cardTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cardTableMouseClicked
@@ -397,8 +408,58 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void facultyComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facultyComboBoxActionPerformed
-        
+        if(facultyComboBox.getSelectedItem().equals("Information Technology")){
+            departmentComboBox.removeAllItems();
+            departmentComboBox.addItem("Information Management");
+            departmentComboBox.addItem("Networks and Telecommunication Systems");
+            departmentComboBox.addItem("Software Engineering");
+        }else if(facultyComboBox.getSelectedItem().equals("Education")){
+            departmentComboBox.removeAllItems();
+            departmentComboBox.addItem("Education 1");
+            departmentComboBox.addItem("Education 2");
+            departmentComboBox.addItem("Education 3");
+        }else if(facultyComboBox.getSelectedItem().equals("Business Administration")){
+            departmentComboBox.removeAllItems();
+            departmentComboBox.addItem("Management");
+            departmentComboBox.addItem("Accounting");
+            departmentComboBox.addItem("Finance");
+        }else if(facultyComboBox.getSelectedItem().equals("Nursing")){
+            departmentComboBox.removeAllItems();
+            departmentComboBox.addItem("Children health care");
+            departmentComboBox.addItem("Nursing 2");
+            departmentComboBox.addItem("Nursing 3");
+        }else if(facultyComboBox.getSelectedItem().equals("Theology")){
+            departmentComboBox.removeAllItems();
+            departmentComboBox.addItem("Philosophy");
+            departmentComboBox.addItem("Theology and Philosophy");
+            departmentComboBox.addItem("Pastorhood");
+        }
     }//GEN-LAST:event_facultyComboBoxActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        if ("".equals(searchTextField.getText())) {
+            JOptionPane.showMessageDialog(this, "No Registration number to search!","Error",JOptionPane.ERROR_MESSAGE);
+        } else {
+            String searchedItem = searchTextField.getText();
+            int searchedId = Integer.parseInt(searchedItem);
+
+            searchResults = cardDao.searchList(searchedId);
+            if (searchResults.isEmpty()) {
+                displayInTable(searchResults);
+                clearFields();
+                JOptionPane.showMessageDialog(this, "Registration number not found!!","Result",JOptionPane.ERROR_MESSAGE);
+            } else {
+                displayInTable(searchResults);
+                clearFields();
+            }
+        }
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        getCardList();
+        displayInTable(listOfCards);
+        clearFields();
+    }//GEN-LAST:event_refreshButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -450,15 +511,20 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JComboBox<String> programTextField;
+    private javax.swing.JButton refreshButton;
     private javax.swing.JTextField regNoTextField;
     private javax.swing.JButton resetButton;
     private javax.swing.JButton saveButton;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JTextField searchTextField;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }
