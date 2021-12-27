@@ -44,11 +44,34 @@ public class CardDao {
         return listofcards;
     }
     
-    /*
-    public void numberOfCardsTaken(){
+    public List<Card> searchIntegers(int searchInput){
         session=HibernateUtil.getSessionFactory().openSession();
         transaction=session.beginTransaction();
-        String cardIdNumber = session.create
-        
+        Query searchQuery = session.createQuery("From Card WHERE cardId like "+searchInput+" OR howOftenTaken like "+searchInput+" OR regNo like "+searchInput+"");
+        List<Card> searchResults= searchQuery.list();
+        transaction.commit();
+        session.close();
+        return searchResults;
+    }
+    
+    public List<Card> searchStrings(String searchInput){
+        session=HibernateUtil.getSessionFactory().openSession();
+        transaction=session.beginTransaction();
+        Query searchQuery = session.createQuery("From Card WHERE department like '"+searchInput+"' OR faculty like '"+searchInput+"' OR name like '"+searchInput+"' OR program like '"+searchInput+"'");
+        List<Card> searchResults= searchQuery.list();
+        transaction.commit();
+        session.close();
+        return searchResults;
+    }
+    
+    /*
+    public List<Card> searchList(int studentIdToSearch){
+        session=HibernateUtil.getSessionFactory().openSession();
+        transaction=session.beginTransaction();
+        Query searchQuery = session.createQuery("From Card WHERE regNo="+studentIdToSearch+"");
+        List<Card> searchResults= searchQuery.list();
+        transaction.commit();
+        session.close();
+        return searchResults;
     }*/
 }
