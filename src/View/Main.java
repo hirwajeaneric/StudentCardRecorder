@@ -6,6 +6,8 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Model.Card;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -150,7 +152,7 @@ public class Main extends javax.swing.JFrame {
                 saveButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(saveButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 346, -1, -1));
+        jPanel1.add(saveButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, -1));
 
         cardTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -225,7 +227,7 @@ public class Main extends javax.swing.JFrame {
                 updateButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(updateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 346, -1, -1));
+        jPanel1.add(updateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 340, -1, -1));
 
         deleteButton.setText("DELETE");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -233,7 +235,7 @@ public class Main extends javax.swing.JFrame {
                 deleteButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 375, 78, -1));
+        jPanel1.add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, 78, -1));
 
         resetButton.setText("RESET");
         resetButton.addActionListener(new java.awt.event.ActionListener() {
@@ -241,7 +243,7 @@ public class Main extends javax.swing.JFrame {
                 resetButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(resetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(171, 346, -1, -1));
+        jPanel1.add(resetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 340, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
@@ -255,7 +257,7 @@ public class Main extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 11), new java.awt.Color(0, 0, 0))); // NOI18N
 
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("Search by student registration number");
+        jLabel9.setText("Search anything from the space bellow");
 
         searchButton.setText("SEARCH");
         searchButton.addActionListener(new java.awt.event.ActionListener() {
@@ -441,9 +443,25 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No Registration number to search!","Error",JOptionPane.ERROR_MESSAGE);
         } else {
             String searchedItem = searchTextField.getText();
-            int searchedId = Integer.parseInt(searchedItem);
-
-            searchResults = cardDao.searchList(searchedId);
+            /*
+            if(searchedItem.getClass().getSimpleName().equals("Integer")){
+                int searchedId = Integer.parseInt(searchedItem);
+                searchResults = cardDao.searchIntegers(searchedId);
+            }else if(searchedItem.getClass().getSimpleName().equals("String")){
+                searchResults = cardDao.searchStrings(searchedItem);
+            }*/
+            
+            Pattern p = Pattern.compile("([0-9])");
+            Matcher m = p.matcher(searchedItem);
+            
+            if (m.find()) {
+                int searchedId = Integer.parseInt(searchedItem);
+                searchResults = cardDao.searchIntegers(searchedId);
+            }else {
+                searchResults = cardDao.searchStrings(searchedItem);
+            }
+            
+            
             if (searchResults.isEmpty()) {
                 displayInTable(searchResults);
                 clearFields();

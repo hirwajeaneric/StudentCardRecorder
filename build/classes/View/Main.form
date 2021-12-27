@@ -212,7 +212,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="20" y="346" width="-1" height="-1"/>
+              <AbsoluteConstraints x="30" y="340" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -388,7 +388,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="88" y="346" width="-1" height="-1"/>
+              <AbsoluteConstraints x="100" y="340" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -401,7 +401,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="88" y="375" width="78" height="-1"/>
+              <AbsoluteConstraints x="100" y="370" width="78" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -414,7 +414,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="171" y="346" width="-1" height="-1"/>
+              <AbsoluteConstraints x="180" y="340" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -504,7 +504,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Search by student registration number"/>
+                <Property name="text" type="java.lang.String" value="Search anything from the space bellow"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="searchTextField">
