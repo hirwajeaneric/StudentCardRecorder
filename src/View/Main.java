@@ -417,25 +417,21 @@ public class Main extends javax.swing.JFrame {
             departmentComboBox.addItem("Software Engineering");
         }else if(facultyComboBox.getSelectedItem().equals("Education")){
             departmentComboBox.removeAllItems();
-            departmentComboBox.addItem("Education 1");
-            departmentComboBox.addItem("Education 2");
-            departmentComboBox.addItem("Education 3");
+            departmentComboBox.addItem("Geography & History");
+            departmentComboBox.addItem("English & literature");
+            departmentComboBox.addItem("Accounting & IT");
         }else if(facultyComboBox.getSelectedItem().equals("Business Administration")){
             departmentComboBox.removeAllItems();
             departmentComboBox.addItem("Management");
             departmentComboBox.addItem("Accounting");
             departmentComboBox.addItem("Finance");
+            departmentComboBox.addItem("Marketing");
         }else if(facultyComboBox.getSelectedItem().equals("Nursing")){
             departmentComboBox.removeAllItems();
-            departmentComboBox.addItem("Children health care");
-            departmentComboBox.addItem("Nursing 2");
-            departmentComboBox.addItem("Nursing 3");
+            departmentComboBox.addItem("Nursing");
         }else if(facultyComboBox.getSelectedItem().equals("Theology")){
             departmentComboBox.removeAllItems();
-            departmentComboBox.addItem("Philosophy");
-            departmentComboBox.addItem("Theology and Philosophy");
-            departmentComboBox.addItem("Pastorhood");
-        }
+            departmentComboBox.addItem("Theology");}
     }//GEN-LAST:event_facultyComboBoxActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
@@ -443,13 +439,6 @@ public class Main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No Registration number to search!","Error",JOptionPane.ERROR_MESSAGE);
         } else {
             String searchedItem = searchTextField.getText();
-            /*
-            if(searchedItem.getClass().getSimpleName().equals("Integer")){
-                int searchedId = Integer.parseInt(searchedItem);
-                searchResults = cardDao.searchIntegers(searchedId);
-            }else if(searchedItem.getClass().getSimpleName().equals("String")){
-                searchResults = cardDao.searchStrings(searchedItem);
-            }*/
             
             Pattern p = Pattern.compile("([0-9])");
             Matcher m = p.matcher(searchedItem);
