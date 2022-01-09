@@ -6,8 +6,17 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Model.Card;
+import java.awt.Image;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -15,6 +24,14 @@ import java.util.regex.Pattern;
  */
 public class Main extends javax.swing.JFrame {
 
+    int selectedRow;
+    byte[] person_image;
+    FileInputStream fileinputstream;
+    String thePathOfTheImage;
+    File theimage, selectedImage;    
+    byte[] ImagePhotoFileFromDatabase;    
+    String imageFilePath = null;
+    
     Card studentCard = new Card();
     CardDao cardDao = new CardDao();
     List<Card> listOfCards, searchResults;
@@ -32,10 +49,7 @@ public class Main extends javax.swing.JFrame {
     
     public int takenCards(){
         int numberOfCardsTaken = 1;
-        /*
-        if(){
-            
-        }*/
+       
         return numberOfCardsTaken;
     }
     
@@ -97,6 +111,9 @@ public class Main extends javax.swing.JFrame {
         searchTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        imageLabel = new javax.swing.JLabel();
+        resetButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("AUCA - Student Card Recorder");
@@ -152,14 +169,14 @@ public class Main extends javax.swing.JFrame {
                 saveButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(saveButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, -1, -1));
+        jPanel1.add(saveButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 330, -1, -1));
 
         cardTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "CardId", "Name", "Faculty", "Department", "RegNo", "Program", "Number of Cards"
+                "CardId", "Name", "Faculty", "Department", "RegNo", "Program", "Number of Cards", "Photo"
             }
         ));
         cardTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -169,7 +186,7 @@ public class Main extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(cardTable);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(264, 121, 555, 206));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 120, 555, 206));
 
         jPanel2.setBackground(new java.awt.Color(0, 51, 102));
 
@@ -184,7 +201,7 @@ public class Main extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(254, 254, 254)
+                .addGap(327, 327, 327)
                 .addComponent(jLabel7)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -206,9 +223,9 @@ public class Main extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(215, 215, 215)
+                .addGap(290, 290, 290)
                 .addComponent(jLabel6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(324, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,7 +236,7 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 831, -1));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, -1));
 
         updateButton.setText("UPDATE");
         updateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -227,7 +244,7 @@ public class Main extends javax.swing.JFrame {
                 updateButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(updateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 340, -1, -1));
+        jPanel1.add(updateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, -1, -1));
 
         deleteButton.setText("DELETE");
         deleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -235,15 +252,15 @@ public class Main extends javax.swing.JFrame {
                 deleteButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, 78, -1));
+        jPanel1.add(deleteButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, 78, -1));
 
-        resetButton.setText("RESET");
+        resetButton.setText("BROWSE IMAGE");
         resetButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resetButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(resetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 340, -1, -1));
+        jPanel1.add(resetButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 300, 170, -1));
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 11)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
@@ -301,13 +318,28 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(264, 333, 555, -1));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 555, -1));
+
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel5.add(imageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 170));
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 170, 170));
+
+        resetButton1.setText("RESET");
+        resetButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(resetButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 330, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1007, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -325,7 +357,8 @@ public class Main extends javax.swing.JFrame {
             int regNumber = Integer.parseInt(regNoTextField.getText());
             studentCard.setRegNo(regNumber);
             studentCard.setProgram(programTextField.getSelectedItem().toString());
-
+            studentCard.setImage(person_image);
+            
             cardDao.save(studentCard);
 
             getCardList();
@@ -346,7 +379,9 @@ public class Main extends javax.swing.JFrame {
             int regNumber = Integer.parseInt(regNoTextField.getText());
             studentCard.setRegNo(regNumber);
             studentCard.setProgram(programTextField.getSelectedItem().toString());
-
+            person_image=imageFilePath.getBytes();
+            studentCard.setImage(person_image);
+            
             cardDao.update(studentCard);
 
             getCardList();
@@ -361,54 +396,82 @@ public class Main extends javax.swing.JFrame {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
 
-//        int dialogResults = JOptionPane.showConfirmDialog(this, "Do you want to delete this card?", "Notice", JOptionPane.YES_NO_OPTION);
-//        if(dialogResults == JOptionPane.YES_OPTION){
-//            
-//        }else {
-//            
-//        }
         studentCard.setName(nameTextField.getText());
-            studentCard.setFaculty(facultyComboBox.getSelectedItem().toString());
-            studentCard.setDepartment(departmentComboBox.getSelectedItem().toString());
-            int regNumber = Integer.parseInt(regNoTextField.getText());
-            studentCard.setRegNo(regNumber);
-            studentCard.setProgram(programTextField.getSelectedItem().toString());
+        studentCard.setFaculty(facultyComboBox.getSelectedItem().toString());
+        studentCard.setDepartment(departmentComboBox.getSelectedItem().toString());
+        int regNumber = Integer.parseInt(regNoTextField.getText());
+        studentCard.setRegNo(regNumber);
+        studentCard.setProgram(programTextField.getSelectedItem().toString());
+        person_image=imageFilePath.getBytes();
+        studentCard.setImage(person_image);
 
+        cardDao.delete(studentCard);
 
-            cardDao.delete(studentCard);
+        getCardList();
+        displayInTable(listOfCards);
+        clearFields();
 
-            getCardList();
-            displayInTable(listOfCards);
-            clearFields();
-
-            JOptionPane.showMessageDialog(null,"Card Data Deleted!","Success",JOptionPane.INFORMATION_MESSAGE);        
+        JOptionPane.showMessageDialog(null,"Card Data Deleted!","Success",JOptionPane.INFORMATION_MESSAGE);        
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void cardTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cardTableMouseClicked
         DefaultTableModel model = (DefaultTableModel) cardTable.getModel();
-        int row = cardTable.getSelectedRow(); //This gives us the number of the selected row.
+        int row = cardTable.getSelectedRow();
         
-        //Next, We take data from that specific row and put them in the input fields.
         nameTextField.setText(model.getValueAt(row, 1).toString());
         facultyComboBox.setSelectedItem(model.getValueAt(row, 2).toString());
         departmentComboBox.setSelectedItem(model.getValueAt(row, 3).toString());
         regNoTextField.setText(model.getValueAt(row, 4).toString());
         facultyComboBox.setSelectedItem(model.getValueAt(row, 5).toString());
         programTextField.setSelectedItem(model.getValueAt(row, 6).toString());
-        //howOftenTakenTextField.setEditable(true);
-        //howOftenTakenTextField.setText(model.getValueAt(row, 7).toString());
+        imageFilePath = model.getValueAt(row, 7).toString();
     }//GEN-LAST:event_cardTableMouseClicked
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        nameTextField.setText(null);
-        facultyComboBox.setSelectedIndex(0);
-        departmentComboBox.setSelectedIndex(WIDTH);
-        regNoTextField.setText(null);
-        facultyComboBox.setSelectedIndex(0);
-        programTextField.setSelectedIndex(0);
-        howOftenTakenTextField.setText(null);
+        JFileChooser imageChooser = new JFileChooser();
+        imageChooser.showOpenDialog(null);
+        selectedImage = imageChooser.getSelectedFile();
+        thePathOfTheImage = selectedImage.getAbsolutePath();
+        imageFilePath = thePathOfTheImage;
+        theimage = new File(thePathOfTheImage);
+       
+        convertImageFileIntoByteArray(theimage);
+        displaySelectedImage(thePathOfTheImage);
     }//GEN-LAST:event_resetButtonActionPerformed
 
+    public byte[] convertImageFileIntoByteArray(File image) {
+        try {
+            fileinputstream = new FileInputStream(theimage);
+            
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            
+            byte[] buf = new byte[2048];
+            for(int readNum; (readNum = fileinputstream.read(buf))!=-1;){
+                byteArrayOutputStream.write(buf,0,readNum);
+            }
+            person_image = byteArrayOutputStream.toByteArray();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return person_image;
+    }
+    
+    public void displaySelectedImage(String thePathOfTheImage1){
+        ImageIcon image = new ImageIcon(thePathOfTheImage1);
+        Image im = image.getImage();
+        Image myImg = im.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon newImage = new ImageIcon(myImg);
+        imageLabel.setIcon(newImage);
+    }
+    
+    public void displayImage(byte[] ImagePhotoFileFromDatabase1){
+        ImageIcon image = new ImageIcon(ImagePhotoFileFromDatabase);
+        Image im = image.getImage();
+        Image myImg = im.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon newImage = new ImageIcon(myImg);
+        imageLabel.setIcon(newImage);
+    }    
     private void facultyComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_facultyComboBoxActionPerformed
         if(facultyComboBox.getSelectedItem().equals("Information Technology")){
             departmentComboBox.removeAllItems();
@@ -468,6 +531,10 @@ public class Main extends javax.swing.JFrame {
         clearFields();
     }//GEN-LAST:event_refreshButtonActionPerformed
 
+    private void resetButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_resetButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -510,6 +577,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> departmentComboBox;
     private javax.swing.JComboBox<String> facultyComboBox;
     private javax.swing.JTextField howOftenTakenTextField;
+    private javax.swing.JLabel imageLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -523,12 +591,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JComboBox<String> programTextField;
     private javax.swing.JButton refreshButton;
     private javax.swing.JTextField regNoTextField;
     private javax.swing.JButton resetButton;
+    private javax.swing.JButton resetButton1;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchTextField;

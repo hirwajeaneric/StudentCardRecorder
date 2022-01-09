@@ -16,17 +16,21 @@ public class Card {
     private String faculty;
     private String department;
     private String program;
+    @Lob
+    @Column(name = "image" ,columnDefinition = "LONGBLOB")    
+    private byte[] image;
 
     public Card() {
     }
 
-    public Card(int cardId, int regNo, String name, String faculty, String department, String program) {
+    public Card(int cardId, int regNo, String name, String faculty, String department, String program, byte[] image) {
         this.cardId = cardId;
         this.regNo = regNo;
         this.name = name;
         this.faculty = faculty;
         this.department = department;
         this.program = program;
+        this.image = image;
     }
 
     public int getCardId() {
@@ -75,5 +79,15 @@ public class Card {
 
     public void setProgram(String program) {
         this.program = program;
-    }    
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    
 }
