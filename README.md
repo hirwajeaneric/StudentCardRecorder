@@ -1,4 +1,4 @@
 # StudentCardRecorder
 This repository contains a Student Card Recorder Desktop Java Application.
-![Project view](https://github.com/hirwajeaneric/StudentCardRecorder/blob/main/docs/StudentIdCardRecorder.png)
+![Project view](https://github.com/hirwajeaneric/StudentCardRecorder/blob/main/docs/StudentIdCardRecorder1.png)
 
