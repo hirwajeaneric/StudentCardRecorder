@@ -17,7 +17,7 @@ public class Card {
     private String department;
     private String program;
     @Lob
-    @Column(name = "image" ,columnDefinition = "LONGBLOB")    
+    @Column(name="picture", columnDefinition = "LONGBLOB")
     private byte[] image;
 
     public Card() {
